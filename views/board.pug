@@ -1,30 +1,22 @@
 extends layout
+
 block content
   h1= title
-  p Number of rows #{query.rows}
-  p Number of columns #{query.cols}
-
-  - let rows=Number(query.rows)
-  - let cols=Number(query.cols)
-
-  if !(Number.isInteger(rows)) && !(Number.isInteger(cols))
-    p incorrect rows or columns
-  else if (rows<1) && (rows>10)
-    p rows are out of range
-  else if (cols<1) && (cols>10)
-    p cols are out of range
+  p Rows: #{query.rows}, Columns: #{query.cols}
+  - var rows=Number(query.rows);
+  - var cols=Number(query.cols);
+  if !Number.isInteger(rows)
+      p Invalid input. Please provide integer values for rows and columns within the range of 1 to 10.
+  else if !Number.isInteger(cols)
+      p Invalid input. Please provide integer values for rows and columns within the range of 1 to 10.
+  else if rows<1||rows>10
+      p Invalid input. Please provide integer values for rows and columns within the range of 1 to 10.
+  else if cols<1||cols>10
+      p Invalid input. Please provide integer values for rows and columns within the range of 1 to 10.
   else
-   table#outer
-     - for(let i=0; i<rows; i++){
+    table#outer
+      - for (let i = 0; i < rows; i++)
         tr#middle
-         - for(let j=0; j<cols; j++){
-            if(i==j)
-                td 1
-            else if ((i == j + 1))
-                td 2
-            else if (i === j - 1)
-                td #{i}
-            else 
-                td 0
-         -}
-     -}
+          - for (let j = 0; j < cols; j++)
+            - let value = (i === j) ? 1 : (i === j + 1) ? 2 : (i === j - 1) ? i : 0
+            td= value
